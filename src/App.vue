@@ -1,47 +1,73 @@
-<script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+<script>
+export default {
+  name: 'App',
+  data() {
+    return {
+      numero1: 0,
+      numero2: 0,
+      operacao: 'adicao',
+    };
+  },
+  methods: {
+    atualizaNumero1(event) {
+      this.numero1 = parseFloat(event.target.value) || 0;
+    },
+    atualizaNumero2(event) {
+      this.numero2 = parseFloat(event.target.value) || 0;
+    },
+    atualizaOperacao(event) {
+      this.operacao = event.target.value;
+    },
+    calcular() {
+      switch (this.operacao) {
+        case 'adicao':
+          return this.numero1 + this.numero2;
+        case 'subtracao':
+          return this.numero1 - this.numero2;
+        case 'multiplicacao':
+          return this.numero1 * this.numero2;
+        case 'divisao':
+          return this.numero2 !== 0 ? this.numero1 / this.numero2 : 'Erro: Divisão por zero';
+        default:
+          return 0;
+      }
+    },
+  },
+};
 </script>
 
+
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
+ <div id="app">
+    <h1>Calculadora Aritmética</h1>
+    <div class="components">
+      <input type="number" :value="numero1" @input="atualizaNumero1($event)" placeholder="Número 1">
+    <input type="number" :value="numero2" @input="atualizaNumero2($event)" placeholder="Número 2">
+    <select :value="operacao" @change="atualizaOperacao($event)">
+      <option value="adicao">Adição</option>
+      <option value="subtracao">Subtração</option>
+      <option value="multiplicacao">Multiplicação</option>
+      <option value="divisao">Divisão</option>
+    </select>
     </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+    <div class="result">Resultado: {{ calcular() }}</div>
+  </div>
 </template>
 
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
+<style>
+  #app {
   display: block;
-  margin: 0 auto 2rem;
+  text-align: center;
+  background-color: lightpink;
+  color: lightcyan;
+
 }
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
+  .components {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    column-gap: 10%;
+    margin: 5px;
+    padding: 10px;
   }
 
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
 </style>
